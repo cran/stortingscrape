@@ -105,13 +105,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -368,7 +375,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw">data</span>(<span class="dt">list =</span> data_files)</a></code></pre></div>
 <div id="basic-extraction" class="section level2">
 <h2>Basic extraction</h2>
-<p>The basic extraction of specific data from Stortinget’s API revolves around various forms of ID tags. For example, all MPs have a unique ID, all cases have unique IDs, all votes have unique IDs, and so on. For the following example, I will highlight going from a case on economic measures for the Covid pandemic to party distribution on a specific vote in this case. First, the case was relatively rapidly proposed and treated in the Storting during the early days of June 2021. The case in its entirety can be found at <a href="https://stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/?p=85196">here</a>. You will see the procedure steps from a government proposal, through work in the finance committee, to debate and decision. Lets say a particular proposal under the case caught our eye – for instance, vote number 61 from the Labor Party,<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> asking the government to propose a plan for implementing the International Labor Organization’s core conventions to the Human Rights Act (menneskerettighetsloven).</p>
+<p>The basic extraction of specific data from Stortinget’s API revolves around various forms of ID tags. For example, all MPs have a unique ID, all cases have unique IDs, all votes have unique IDs, and so on. For the following example, I will highlight going from a case on economic measures for the Covid pandemic to party distribution on a specific vote in this case. First, the case was relatively rapidly proposed and treated in the Storting during the early days of June 2021. The case in its entirety can be found at <a href="https://stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/?p=85196">here</a>. You will see the procedure steps from a government proposal, through work in the finance committee, to debate and decision. Lets say a particular proposal under the case caught our eye – for instance, <a href="https://stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/Voteringsoversikt/?p=85196&amp;dnid=1">vote number 61 from the Labor Party</a> asking the government to propose a plan for implementing the International Labor Organization’s core conventions to the Human Rights Act (menneskerettighetsloven).</p>
 <p>As can be seen from the link to the case itself, we have an ID within the URL: “85196”. This is the case ID. We can use the <code>get_case()</code> function from <code>stortingscrape</code> to extract all votes on this case:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co">## covid_relief &lt;- get_vote(&quot;85196&quot;)</span></a></code></pre></div>
 <p>We now have a data frame with 71 votes over 22 variables. The data structure for some selected variables, looks like this:</p>
@@ -383,7 +390,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>As we are interested in the result of proposal 217 from the Labor Party, we can extract the ID of this particular vote from our data:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"></a>
 <a class="sourceLine" id="cb5-2" title="2">covid_relief<span class="op">$</span>vote_id[<span class="kw">which</span>(<span class="kw">grepl</span>(<span class="st">&quot;217&quot;</span>, covid_relief<span class="op">$</span>vote_topic))]</a></code></pre></div>
-<p>To get the personal MP vote results for this particular vote, we can use the <code>get_result_vote()</code> function:<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
+<p>To get the personal MP vote results for this particular vote, we can use the <code>get_result_vote()</code> function:<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co">## covid_relief_result &lt;- get_result_vote(&quot;17689&quot;)</span></a>
 <a class="sourceLine" id="cb6-2" title="2"></a>
 <a class="sourceLine" id="cb6-3" title="3"><span class="kw">head</span>(covid_relief_result[, <span class="kw">c</span>(<span class="st">&quot;vote_id&quot;</span>, <span class="st">&quot;mp_id&quot;</span>, <span class="st">&quot;party_id&quot;</span>, <span class="st">&quot;vote&quot;</span>)])</a>
@@ -466,7 +473,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>Next, I showcase how to get go from cases in a section, through extracting a case of interest and vote results, to vote matrices for that case.</p>
 <p>First, I extract all cases in the 2019-2020 session:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co">## cases &lt;- get_session_cases(&quot;2019-2020&quot;)</span></a></code></pre></div>
-<p>The <code>cases</code> object will here contain all cases treated in the 2019-2020 parliamentary session. Do note that <code>cases</code> is a list of 4 elements (<code>$root</code>, <code>$topics</code>, <code>$proposers</code>, and <code>$spokespersons</code>). In the following, I use the case ID in <code>$root</code> to access vote information for a case – in this example the 48th row in the data:<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></p>
+<p>The <code>cases</code> object will here contain all cases treated in the 2019-2020 parliamentary session. Do note that <code>cases</code> is a list of 4 elements (<code>$root</code>, <code>$topics</code>, <code>$proposers</code>, and <code>$spokespersons</code>). In the following, I use the case ID in <code>$root</code> to access vote information for a case – in this example the 48th row in the data:<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"></a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="co"># The case titles are, unfortunately, not translated</span></a>
 <a class="sourceLine" id="cb13-3" title="3">cases<span class="op">$</span>root<span class="op">$</span>title_short[<span class="dv">48</span>]</a>
@@ -526,7 +533,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>Thomas, Matt, Bo Pang, and Lillian Lee. 2006. “Get Out the Vote: Determining Support or Opposition from Congressional Floor-Debate Transcripts.” In <em>Proceedings of the 2006 Conference on Empirical Methods in Natural Language Processing</em>, 327–35. Association for Computational Linguistics.</p>
 </div>
 <div id="ref-Turner-Zwinkels2021">
-<p>Turner-Zwinkels, Tomas, Oliver Huwyler, Elena Frech, Philip Manow, Stefanie Bailer, Niels D. Goet, and Simon Hug. 2021. “Parliaments Day-by-Day: A New Open Source Database to Answer the Question of Who Was in What Parliament, Party, and Party-Group, and When.” <em>Legislative Studies Quarterly</em> n/a (n/a). <a href="https://doi.org/https://doi.org/10.1111/lsq.12359">https://doi.org/https://doi.org/10.1111/lsq.12359</a>.</p>
+<p>Turner-Zwinkels, Tomas, Oliver Huwyler, Elena Frech, Philip Manow, Stefanie Bailer, Niels D. Goet, and Simon Hug. 2021. “Parliaments Day-by-Day: A New Open Source Database to Answer the Question of Who Was in What Parliament, Party, and Party-Group, and When.” <em>Legislative Studies Quarterly</em>.</p>
 </div>
 <div id="ref-Wickham2020">
 <p>Wickham, Hadley. 2020. <em>Httr: Tools for Working with Urls and Http</em>. <a href="https://CRAN.R-project.org/package=httr">https://CRAN.R-project.org/package=httr</a>.</p>
@@ -541,12 +548,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li id="fn2"><p>See <a href="https://martigso.github.io/stortingscrape/functions.html" class="uri">https://martigso.github.io/stortingscrape/functions.html</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
 <li id="fn3"><p><code>stortingscrape</code> exclusively works with XML.<a href="#fnref3" class="footnote-back">↩</a></p></li>
 <li id="fn4"><p><code>stortingscrape::get_mp(&quot;MAAA&quot;)</code><a href="#fnref4" class="footnote-back">↩</a></p></li>
-<li id="fn5"><p>Especially, see <a href="https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html" class="uri">https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html</a><a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Especially, see <a href="https://cran.r-project.org/package=httr/vignettes/api-packages.html" class="uri">https://cran.r-project.org/package=httr/vignettes/api-packages.html</a><a href="#fnref5" class="footnote-back">↩</a></p></li>
 <li id="fn6"><p><a href="https://stortinget.no">stortinget.no</a> as the ids are embedded in the urls.<a href="#fnref6" class="footnote-back">↩</a></p></li>
 <li id="fn7"><p>This is done in order to not call the API each time the vignette is built.<a href="#fnref7" class="footnote-back">↩</a></p></li>
-<li id="fn8"><p><a href="https://stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/Voteringsoversikt/?p=85196&amp;dnid=1" class="uri">https://stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/Voteringsoversikt/?p=85196&amp;dnid=1</a><a href="#fnref8" class="footnote-back">↩</a></p></li>
-<li id="fn9"><p>I have not decided if data values should be translated or not. In this case, “for” is “for”, “mot” is “against”, and “ikke_tilstede” is “absent”.}<a href="#fnref9" class="footnote-back">↩</a></p></li>
-<li id="fn10"><p>I will note that it is possible to extract vote information on all cases by either using the <code>apply()</code> family or control flow constructs available in R. However, in this case, calling the API 616 (<code>nrow(cases[[&quot;root&quot;]])</code>) times, will require to pause between calls (with the {<code>good_manners</code> argument). This will increase running time substantially.<a href="#fnref10" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>I have not decided if data values should be translated or not. In this case, “for” is “for”, “mot” is “against”, and “ikke_tilstede” is “absent”.}<a href="#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn9"><p>I will note that it is possible to extract vote information on all cases by either using the <code>apply()</code> family or control flow constructs available in R. However, in this case, calling the API 616 (<code>nrow(cases[[&quot;root&quot;]])</code>) times, will require to pause between calls (with the {<code>good_manners</code> argument). This will increase running time substantially.<a href="#fnref9" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 

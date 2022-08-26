@@ -1,9 +1,9 @@
-26da1cfc95dc91281c0b389ce12ac63d *DESCRIPTION
+ce7eedf3052e4880ce0ed8af6503778a *DESCRIPTION
 b113c56d858ab683e0d87acafe423063 *NAMESPACE
 b4a285d9f000a1b52a7c022451335442 *R/data.R
 167ec62799bdd053dd9e4a7a33bbe842 *R/get_all_committees.R
 f2ee4f464c858cb2d51973ecfd6999b4 *R/get_all_parties.R
-53afe3e5fa6c4ceb6333bcdd4e464487 *R/get_case.R
+b51f7898a077b4d2bea438b2ebd92f42 *R/get_case.R
 f493265cc9b181e0a19ac1d55c345f16 *R/get_counties.R
 f372daf8d2c7a48622361cfa2632db94 *R/get_decision_votes.R
 1c591ad1f54b7993200dcc1e62f27fc2 *R/get_hearing_input.R
@@ -36,8 +36,8 @@ ee36c3b2a863dec0c4d63bcf9c760d73 *R/get_topics.R
 a09441ae733394c15e29753cf73ef954 *R/get_vote.R
 05cdcb77fdeb4f892e0975fd21c1c16f *R/get_written_hearing_input.R
 cafcbafbdf824e6b907eec3e5c26a6f9 *R/read_obt.R
-b53708a6ac1bf75ad81f4aeaaaf04e72 *README.md
-b3df54bf28e36b75fa781aee59595aa0 *build/vignette.rds
+a09a09433dd2ccbba563f7abf6cb9432 *README.md
+71360c60adea25802e336f7e539e1a03 *build/vignette.rds
 b15f5d6efadbad18f20706ce0891131a *data/cases.rda
 2cd3d6eb8661f3734c95336395886822 *data/covid_relief.rda
 f5d7eb80c3fad302d22ea4516f71b854 *data/covid_relief_result.rda
@@ -49,8 +49,8 @@ cfb3c4c4196d4b7855bebb7c09897447 *data/parl_periods.rda
 62c487491f2793359d8e064e23859995 *data/vote_result.rda
 8c6a92a9bea0b4b8a68417d06256bd39 *inst/CITATION
 bf03cadb9d043a85cf39c6e65037110c *inst/doc/stortingscrape.R
-847d92aeefbe4876058bc7716b758051 *inst/doc/stortingscrape.Rmd
-5186219989beed9fa66eb3d38d67e2d8 *inst/doc/stortingscrape.html
+cb0029f0dc959de7d1c63fc1935b03fa *inst/doc/stortingscrape.Rmd
+2cc15e3e7c7745b1acf060250ac10841 *inst/doc/stortingscrape.html
 320cb60177f4b3f2981a4ea1bfb58158 *inst/extdata/obt_sample.txt
 8bc328866f9f7274b3d0e7452dec58ba *man/cases.Rd
 dd805e7825b89493f0c47e8c9f746d22 *man/covid_relief.Rd
@@ -97,5 +97,5 @@ eeb23646db056c55291307268bef7aa9 *man/parl_sessions.Rd
 b70ef6ea8a8bee96580a1a01a4857168 *man/read_obt.Rd
 f713f5e9953f559466f7088e25d1f3eb *man/vote.Rd
 dd7a7b113cdaf69201c525edc58b27b6 *man/vote_result.Rd
-a4cb84b46bfe4a570adf690d76d4b4be *vignettes/refs.bib
-847d92aeefbe4876058bc7716b758051 *vignettes/stortingscrape.Rmd
+8e9c8ae2003b17c5663290ea65fb0fff *vignettes/refs.bib
+cb0029f0dc959de7d1c63fc1935b03fa *vignettes/stortingscrape.Rmd

@@ -1,7 +1,7 @@
 Package: stortingscrape
 Type: Package
 Title: Access Data from the Norwegian Parliament API
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: person("Martin", "Søyland", email = "martin.soyland@stv.uio.no",
                   role = c("aut", "cre"))
 Description: Functions for retrieving general and specific data from the Norwegian Parliament,
@@ -14,11 +14,11 @@ Imports: rvest, httr, parallel, stringr, dplyr
 Suggests: imager, rmarkdown, knitr, pscl
 License: GPL (>= 3)
 VignetteBuilder: knitr
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 LazyData: true
 NeedsCompilation: no
-Packaged: 2022-06-06 21:06:29 UTC; martigso
+Packaged: 2022-08-26 13:05:03 UTC; martigso
 Author: Martin Søyland [aut, cre]
 Maintainer: Martin Søyland <martin.soyland@stv.uio.no>
 Repository: CRAN
-Date/Publication: 2022-06-07 08:40:02 UTC
+Date/Publication: 2022-08-26 19:30:02 UTC

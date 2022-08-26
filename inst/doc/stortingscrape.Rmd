@@ -137,8 +137,8 @@ are expected to often be ran repeatedly have a `good_manners` argument.
 This will make R sleep for the set amount of seconds after calling
 the API. It is recommended to set this argument to 2 seconds or higher on multiple
 calls to the API. Generally, the package is built by the recommendations given
-by the `httr` package [@Wickham2020]^[Especially, see
-https://cran.r-project.org/web/packages/httr/vignettes/api-packages.html].
+by the `httr` package [@Wickham2020]^[Especially, see 
+https://cran.r-project.org/package=httr/vignettes/api-packages.html].
 
 Most of the data from Stortinget's API and frontend web page are interconnected
 through ids for the various sources (session id, MP id, case id, question id,
@@ -218,8 +218,7 @@ June 2021. The case in its entirety can be found at
 [here](https://stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/?p=85196). You 
 will see the procedure steps from a government proposal, through work in the
 finance committee, to debate and decision. Lets say a particular proposal under
-the case caught our eye -- for instance, vote number 61 from the Labor Party,
-^[https://stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/Voteringsoversikt/?p=85196&dnid=1]
+the case caught our eye -- for instance, [vote number 61 from the Labor Party](https://stortinget.no/no/Saker-og-publikasjoner/Saker/Sak/Voteringsoversikt/?p=85196&dnid=1)
 asking the government to propose a plan for implementing the International Labor
 Organization's core conventions to the Human Rights Act
 (menneskerettighetsloven).

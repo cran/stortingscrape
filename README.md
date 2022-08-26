@@ -2,10 +2,12 @@
 # stortingscrape <img src="man/figures/logo.png" align="right" height="139"/>
 
 <!-- badges: start -->
-<!-- [![CRAN Version](http://www.r-pkg.org/badges/version/stortingscrape)](https://cran.r-project.org/package=stortingscrape) -->
-<!-- [![Downloads](http://cranlogs.r-pkg.org/badges/stortingscrape)](https://cran.r-project.org/package=stortingscrape) -->
-<!-- [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/stortingscrape?color=orange)](https://cran.r-project.org/package=stortingscrape) -->
-<!-- badges: end -->
+
+[![CRAN
+Version](http://www.r-pkg.org/badges/version/stortingscrape)](https://cran.r-project.org/package=stortingscrape)
+[![Downloads](http://cranlogs.r-pkg.org/badges/stortingscrape)](https://cran.r-project.org/package=stortingscrape)
+[![Total
+Downloads](http://cranlogs.r-pkg.org/badges/grand-total/stortingscrape?color=orange)](https://cran.r-project.org/package=stortingscrape)
 
 `stortingscrape` is an R package for retrieving data from the Norwegian
 parliament (*Stortinget*) through their easily accessible back-end API.
