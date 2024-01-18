@@ -54,24 +54,27 @@
 #'                                 status = "trukket")
 #' interp
 #' }
-#' @import rvest httr
+#' @import rvest httr2
 #' 
 #' @export
 #' 
-get_session_questions <- function(sessionid = NA, q_type = NA ,status = NA, good_manners = 0){
+get_session_questions <- function(sessionid = NA, 
+                                  q_type = NA, 
+                                  status = NA, 
+                                  good_manners = 0){
   
-  if(is.na(status) == TRUE){
+  if(q_type %in% c("interpellasjoner", "sporretimesporsmal", "skriftligesporsmal") == FALSE) {
     
-    url <- paste0("https://data.stortinget.no/eksport/", q_type, "?sesjonid=", sessionid)  
-    base <- GET(url)
+    stop('Question type needs to be one of "interpellasjoner", "sporretimesporsmal", "skriftligesporsmal"')
+
+  } else if(is.na(status) == TRUE){
     
-    resp <- http_type(base)
-    if(resp != "text/xml") stop(paste0("Response of ", url, " is not text/xml."), call. = FALSE)
+    url <- paste0("https://data.stortinget.no/eksport/", 
+                  q_type, 
+                  "?sesjonid=", 
+                  sessionid)  
     
-    status <- http_status(base)
-    if(status$category != "Success") stop(paste0("Response of ", url, " returned as '", status$message, "'"), call. = FALSE)
     
-  
   } else if(status %in% c("til_behandling", "trukket", "bortfalt", "alle") == FALSE){
     
     stop('Status needs to be one of "til_behandling", "trukket", "bortfalt", or "alle"')
@@ -79,59 +82,105 @@ get_session_questions <- function(sessionid = NA, q_type = NA ,status = NA, good
   } else {
     
     url <- paste0("https://data.stortinget.no/eksport/", q_type, "?sesjonid=", sessionid, "&status=", status)
-    base <- GET(url)
-    
-    resp <- http_type(base)
-    if(resp != "text/xml") stop(paste0("Response of ", url, " is not text/xml."), call. = FALSE)
-    
-    status <- http_status(base)
-    if(status$category != "Success") stop(paste0("Response of ", url, " returned as '", status$message, "'"), call. = FALSE)
     
   }
   
-  message(paste("Downloading data for", sessionid))
-  tmp <- read_html(base)
+  base <- request(url)
   
-  message(paste("Structuring data for", sessionid))
+  resp <- base |> 
+    req_error(is_error = function(resp) FALSE) |> 
+    req_perform()
+  
+  if(resp$status_code != 200) {
+    stop(
+      paste0(
+        "Response of ", 
+        url, 
+        " is '", 
+        resp |> resp_status_desc(),
+        "' (",
+        resp$status_code,
+        ")."
+      ), 
+      call. = FALSE)
+  }
+  
+  if(resp_content_type(resp) != "text/xml") {
+    stop(
+      paste0(
+        "Response of ", 
+        url, 
+        " returned as '", 
+        resp_content_type(resp), 
+        "'.",
+        " Should be 'text/xml'."), 
+      call. = FALSE) 
+  }
+  
+  tmp <- resp |> 
+    resp_body_html(check_type = FALSE, encoding = "utf-8") 
+  
   tmp2 <- data.frame(
-    response_date = tmp %>% html_elements("sporsmal_liste > sporsmal > respons_dato_tid") %>% html_text(),
-    version = tmp %>% html_elements("sporsmal_liste > sporsmal > versjon") %>% html_text(),
-    answ_by_id = tmp %>% html_elements("sporsmal_liste > sporsmal > besvart_av > id") %>% html_text(),
-    answ_by_minister_id = tmp %>% html_elements("sporsmal_liste > sporsmal > besvart_av_minister_id") %>% html_text(),
-    answ_by_minister_title = tmp %>% html_elements("sporsmal_liste > sporsmal > besvart_av_minister_tittel") %>% html_text(),
-    answ_date = tmp %>% html_elements("sporsmal_liste > sporsmal > besvart_dato") %>% html_text(),
-    answ_on_belhalf_of = tmp %>% html_elements("sporsmal_liste > sporsmal > besvart_pa_vegne_av") %>% html_text(),
-    answ_on_belhalf_of_minister_id = tmp %>% html_elements("sporsmal_liste > sporsmal > besvart_pa_vegne_av_minister_id") %>% html_text(),
-    answ_on_belhalf_of_minister_title = tmp %>% html_elements("sporsmal_liste > sporsmal > besvart_pa_vegne_av_minister_tittel") %>% html_text(),
-    moved_to = tmp %>% html_elements("sporsmal_liste > sporsmal > flyttet_til") %>% html_text(),
-    id = tmp %>% html_elements("sporsmal_liste > sporsmal > id") %>% html_text(),
-    correct_person_minister_id = tmp %>% html_elements("sporsmal_liste > sporsmal > rette_vedkommende_minister_id") %>% html_text(),
-    correct_person_minister_title = tmp %>% html_elements("sporsmal_liste > sporsmal > rette_vedkommende_minister_tittel") %>% html_text(),
-    sendt_date = tmp %>% html_elements("sporsmal_liste > sporsmal > sendt_dato") %>% html_text(),
-    session_id = tmp %>% html_elements("sporsmal_liste > sporsmal > sesjon_id") %>% html_text(),
-    question_from_id = tmp %>% html_elements("sporsmal_liste > sporsmal > sporsmal_fra > id") %>% html_text(), # get more info with get_mp()
-    question_number = tmp %>% html_elements("sporsmal_liste > sporsmal > sporsmal_nummer") %>% html_text(),
-    question_to_id = tmp %>% html_elements("sporsmal_liste > sporsmal > sporsmal_til > id") %>% html_text(),
-    question_to_minister_id = tmp %>% html_elements("sporsmal_liste > sporsmal > sporsmal_til_minister_id") %>% html_text(),
-    question_to_minister_title = tmp %>% html_elements("sporsmal_liste > sporsmal > sporsmal_til_minister_tittel") %>% html_text(),
-    status = tmp %>% html_elements("sporsmal_liste > sporsmal > status") %>% html_text(),
-    title = tmp %>% html_elements("sporsmal_liste > sporsmal > tittel") %>% html_text(),
-    type = tmp %>% html_elements("sporsmal_liste > sporsmal > type") %>% html_text()
+    response_date                     = tmp |> html_elements("sporsmal_liste > sporsmal > respons_dato_tid") |> html_text(),
+    version                           = tmp |> html_elements("sporsmal_liste > sporsmal > versjon") |> html_text(),
+    answ_by_minister_id               = tmp |> html_elements("sporsmal_liste > sporsmal > besvart_av_minister_id") |> html_text(),
+    answ_by_minister_title            = tmp |> html_elements("sporsmal_liste > sporsmal > besvart_av_minister_tittel") |> html_text(),
+    answ_date                         = tmp |> html_elements("sporsmal_liste > sporsmal > besvart_dato") |> html_text(),
+    answ_on_belhalf_of                = tmp |> html_elements("sporsmal_liste > sporsmal > besvart_pa_vegne_av") |> html_text(),
+    answ_on_belhalf_of_minister_id    = tmp |> html_elements("sporsmal_liste > sporsmal > besvart_pa_vegne_av_minister_id") |> html_text(),
+    answ_on_belhalf_of_minister_title = tmp |> html_elements("sporsmal_liste > sporsmal > besvart_pa_vegne_av_minister_tittel") |> html_text(),
+    moved_to                          = tmp |> html_elements("sporsmal_liste > sporsmal > flyttet_til") |> html_text(),
+    id                                = tmp |> html_elements("sporsmal_liste > sporsmal > id") |> html_text(),
+    correct_person_minister_id        = tmp |> html_elements("sporsmal_liste > sporsmal > rette_vedkommende_minister_id") |> html_text(),
+    correct_person_minister_title     = tmp |> html_elements("sporsmal_liste > sporsmal > rette_vedkommende_minister_tittel") |> html_text(),
+    sendt_date                        = tmp |> html_elements("sporsmal_liste > sporsmal > sendt_dato") |> html_text(),
+    session_id                        = tmp |> html_elements("sporsmal_liste > sporsmal > sesjon_id") |> html_text(),
+    question_from_id                  = tmp |> html_elements("sporsmal_liste > sporsmal > sporsmal_fra > id") |> html_text(), # get more info with get_mp()
+    question_number                   = tmp |> html_elements("sporsmal_liste > sporsmal > sporsmal_nummer") |> html_text(),
+    # question_to_id                    = tmp |> html_elements("sporsmal_liste > sporsmal > sporsmal_til > id") |> html_text(),
+    question_to_minister_id           = tmp |> html_elements("sporsmal_liste > sporsmal > sporsmal_til_minister_id") |> html_text(),
+    question_to_minister_title        = tmp |> html_elements("sporsmal_liste > sporsmal > sporsmal_til_minister_tittel") |> html_text(),
+    status                            = tmp |> html_elements("sporsmal_liste > sporsmal > status") |> html_text(),
+    title                             = tmp |> html_elements("sporsmal_liste > sporsmal > tittel") |> html_text(),
+    type                              = tmp |> html_elements("sporsmal_liste > sporsmal > type") |> html_text()
   )
   
-  tmp2$topic_ids <- sapply((tmp %>% html_elements("sporsmal_liste > sporsmal > emne_liste")), function(x){
-    paste((x %>% html_elements("id") %>% html_text()), collapse = "/")
-  })
-  
-  tmp2$asked_by_other_id <- sapply((tmp %>% html_elements("sporsmal_liste > sporsmal > fremsatt_av_annen")), function(x){
-    x %>% html_element("id") %>% html_text()
-  })
-  
-  tmp2$correct_person <- sapply((tmp %>% html_elements("sporsmal_liste > sporsmal > rette_vedkommende")), function(x){
-    tmp3 <- x %>% html_elements("id") %>% html_text()
-    tmp3 <- ifelse(identical(character(), tmp3), NA, tmp3)
+  tmp2$answ_by_id <- sapply((tmp |> html_elements("sporsmal_liste > sporsmal > besvart_av")), function(x){
+    tmp3 <- x |> html_elements("id") |> html_text()
+    if(identical(character(), tmp3)) {
+      tmp3 <- NA
+    }
     tmp3
   })
+  
+  tmp2$question_to_id <- sapply((tmp |> html_elements("sporsmal_liste > sporsmal > sporsmal_til")), function(x){
+    tmp3 <- x |> html_elements("id") |> html_text()
+    if(identical(character(), tmp3)) {
+      tmp3 <- NA
+    }
+    tmp3
+  })
+  
+  
+  tmp2$topic_ids <- sapply((tmp |> html_elements("sporsmal_liste > sporsmal > emne_liste")), function(x){
+    paste((x |> html_elements("id") |> html_text()), collapse = "/")
+  })
+  
+  tmp2$asked_by_other_id <- sapply((tmp |> html_elements("sporsmal_liste > sporsmal > fremsatt_av_annen")), function(x){
+    x |> html_element("id") |> html_text()
+  })
+  
+  tmp2$correct_person <- sapply((tmp |> html_elements("sporsmal_liste > sporsmal > rette_vedkommende")), function(x){
+    
+    tmp3 <- x |> html_elements("id") |> html_text()
+    
+    if(identical(character(), tmp3)) {
+      tmp3 <- NA
+    }
+    
+    tmp3
+  })
+  
   
   tmp2 <- tmp2[, c(
     "response_date",
@@ -166,4 +215,3 @@ get_session_questions <- function(sessionid = NA, q_type = NA ,status = NA, good
   return(tmp2)
   
 }
-

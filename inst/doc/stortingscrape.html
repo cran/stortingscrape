@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -472,7 +472,7 @@ often be ran repeatedly have a <code>good_manners</code> argument. This
 will make R sleep for the set amount of seconds after calling the API.
 It is recommended to set this argument to 2 seconds or higher on
 multiple calls to the API. Generally, the package is built by the
-recommendations given by the <code>httr</code> package <span class="citation">(Wickham 2020)</span><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
+recommendations given by the <code>httr2</code> package <span class="citation">(Wickham 2023)</span><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
 <p>Most of the data from Stortinget’s API and frontend web page are
 interconnected through ids for the various sources (session id, MP id,
 case id, question id, vote id, etc.). <code>stortingscrape</code> core
@@ -531,8 +531,8 @@ parliamentary session. Finally, I show how the different functions of
 the <code>stortingscrape</code> package works together – merging data on
 cases with their belonging vote results. Note that the vignette is built
 using the examples in the data folder of the package.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_files <span class="ot">&lt;-</span> <span class="fu">data</span>(<span class="at">package =</span> <span class="st">&quot;stortingscrape&quot;</span>)<span class="sc">$</span>results[,<span class="st">&quot;Item&quot;</span>]</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="at">list =</span> data_files)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>data_files <span class="ot">&lt;-</span> <span class="fu">data</span>(<span class="at">package =</span> <span class="st">&quot;stortingscrape&quot;</span>)<span class="sc">$</span>results[,<span class="st">&quot;Item&quot;</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">data</span>(<span class="at">list =</span> data_files)</span></code></pre></div>
 <div id="basic-extraction" class="section level2">
 <h2>Basic extraction</h2>
 <p>The basic extraction of specific data from Stortinget’s API revolves
@@ -553,54 +553,54 @@ conventions to the Human Rights Act (menneskerettighetsloven).</p>
 the URL: “85196”. This is the case ID. We can use the
 <code>get_case()</code> function from <code>stortingscrape</code> to
 extract all votes on this case:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## covid_relief &lt;- get_vote(&quot;85196&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## covid_relief &lt;- get_vote(&quot;85196&quot;)</span></span></code></pre></div>
 <p>We now have a data frame with 71 votes over 22 variables. The data
 structure for some selected variables, looks like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid_relief[, <span class="fu">c</span>(<span class="st">&quot;case_id&quot;</span>, <span class="st">&quot;vote_id&quot;</span>, <span class="st">&quot;n_for&quot;</span>, <span class="st">&quot;n_against&quot;</span>, <span class="st">&quot;adopted&quot;</span>)])</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   case_id vote_id n_for n_against adopted</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   85196   17631     1        87   false</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   85196   17632     6        81   false</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   85196   17633    14        74   false</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   85196   17634    42        46   false</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   85196   17635    40        48   false</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   85196   17636    15        73   false</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">head</span>(covid_relief[, <span class="fu">c</span>(<span class="st">&quot;case_id&quot;</span>, <span class="st">&quot;vote_id&quot;</span>, <span class="st">&quot;n_for&quot;</span>, <span class="st">&quot;n_against&quot;</span>, <span class="st">&quot;adopted&quot;</span>)])</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt;   case_id vote_id n_for n_against adopted</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; 1   85196   17631     1        87   false</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; 2   85196   17632     6        81   false</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 3   85196   17633    14        74   false</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 4   85196   17634    42        46   false</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 5   85196   17635    40        48   false</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 6   85196   17636    15        73   false</span></span></code></pre></div>
 <p>As we are interested in the result of proposal 217 from the Labor
 Party, we can extract the ID of this particular vote from our data:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>covid_relief<span class="sc">$</span>vote_id[<span class="fu">which</span>(<span class="fu">grepl</span>(<span class="st">&quot;217&quot;</span>, covid_relief<span class="sc">$</span>vote_topic))]</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>covid_relief<span class="sc">$</span>vote_id[<span class="fu">which</span>(<span class="fu">grepl</span>(<span class="st">&quot;217&quot;</span>, covid_relief<span class="sc">$</span>vote_topic))]</span></code></pre></div>
 <p>To get the personal MP vote results for this particular vote, we can
 use the <code>get_result_vote()</code> function:<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## covid_relief_result &lt;- get_result_vote(&quot;17689&quot;)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid_relief_result[, <span class="fu">c</span>(<span class="st">&quot;vote_id&quot;</span>, <span class="st">&quot;mp_id&quot;</span>, <span class="st">&quot;party_id&quot;</span>, <span class="st">&quot;vote&quot;</span>)])</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   vote_id mp_id party_id          vote</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   17689   SSA        H           mot</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   17689   EAG        H ikke_tilstede</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   17689   PTA      FrP           mot</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   17689   DTA        A ikke_tilstede</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   17689  KAAN       SV           for</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   17689  KAND       Sp           for</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## covid_relief_result &lt;- get_result_vote(&quot;17689&quot;)</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">head</span>(covid_relief_result[, <span class="fu">c</span>(<span class="st">&quot;vote_id&quot;</span>, <span class="st">&quot;mp_id&quot;</span>, <span class="st">&quot;party_id&quot;</span>, <span class="st">&quot;vote&quot;</span>)])</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;   vote_id mp_id party_id          vote</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 1   17689   SSA        H           mot</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 2   17689   EAG        H ikke_tilstede</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 3   17689   PTA      FrP           mot</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 4   17689   DTA        A ikke_tilstede</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 5   17689  KAAN       SV           for</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; 6   17689  KAND       Sp           for</span></span></code></pre></div>
 <p>From looking only at the first six rows of the data, the readers who
 know the Norwegian political system will suspect that this vote was an
 opposition versus government vote, but we can also easily get the
 distribution of votes by party:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(covid_relief_result<span class="sc">$</span>party_id, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      covid_relief_result<span class="sc">$</span>vote) <span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addmargins</span>()</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      </span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       for ikke_tilstede mot Sum</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   A    27            21   0  48</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   FrP   0            12  14  26</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   H     0            22  23  45</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   KrF   0             5   3   8</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   MDG   1             0   0   1</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   R     1             0   0   1</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   SV    5             6   0  11</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Sp    8            12   0  20</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Uav   0             0   1   1</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   V     0             5   3   8</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Sum  42            83  44 169</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">table</span>(covid_relief_result<span class="sc">$</span>party_id, </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>      covid_relief_result<span class="sc">$</span>vote) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">addmargins</span>()</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;      </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;       for ikke_tilstede mot Sum</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;   A    27            21   0  48</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;   FrP   0            12  14  26</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;   H     0            22  23  45</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt;   KrF   0             5   3   8</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;   MDG   1             0   0   1</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;   R     1             0   0   1</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt;   SV    5             6   0  11</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;   Sp    8            12   0  20</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;   Uav   0             0   1   1</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;   V     0             5   3   8</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;   Sum  42            83  44 169</span></span></code></pre></div>
 <p>As suspected, the vote was divided between the opposition (A, MDG, R,
 SP, and SV) and government parties (H, KrF, V, and FrP), and was not
 adopted by a thin margin of 2 votes. Of course, this is a minimal
@@ -621,41 +621,41 @@ section, I will show how to get all MPs for a specific parliamentary
 period and all interpellations for a parliamentary session.</p>
 <p>First, however, I note that IDs for periods and sessions are accessed
 through two core functions in the package:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## parl_periods &lt;- get_parlperiods()</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## parl_sessions &lt;- get_parlsessions()</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(parl_periods[,<span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;years&quot;</span>)])</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         id     years</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 1965-69 1965-1969</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 1961-65 1961-1965</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 1958-61 1958-1961</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 1954-57 1954-1958</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 1950-53 1950-1954</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 1945-49 1945-1950</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(parl_sessions[,<span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;years&quot;</span>)])</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         id     years</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 31 1991-92 1991-1992</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 32 1990-91 1990-1991</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 33 1989-90 1989-1990</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 34 1988-89 1988-1989</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35 1987-88 1987-1988</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 36 1986-87 1986-1987</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="do">## parl_periods &lt;- get_parlperiods()</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="do">## parl_sessions &lt;- get_parlsessions()</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">tail</span>(parl_periods[,<span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;years&quot;</span>)])</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;         id     years</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 15 1965-69 1965-1969</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; 16 1961-65 1961-1965</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; 17 1958-61 1958-1961</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; 18 1954-57 1954-1958</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; 19 1950-53 1950-1954</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; 20 1945-49 1945-1950</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="fu">tail</span>(parl_sessions[,<span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;years&quot;</span>)])</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt;         id     years</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; 34 1991-92 1991-1992</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; 35 1990-91 1990-1991</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; 36 1989-90 1989-1990</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 37 1988-89 1988-1989</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 38 1987-88 1987-1988</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; 39 1986-87 1986-1987</span></span></code></pre></div>
 <p>The parliamentary period IDs is mainly used for MP data; Norwegian
 MPs are elected for 4 year terms, with no constitutional arrangement for
 snap elections. The MP data also stretch way further back in time than
 most of the other data in the API:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>parl_periods<span class="sc">$</span>id[<span class="fu">nrow</span>(parl_periods)]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;1945-49&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## mps4549 &lt;- get_parlperiod_mps(&quot;1945-49&quot;)</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mps4549[, <span class="fu">c</span>(<span class="st">&quot;mp_id&quot;</span>, <span class="st">&quot;county_id&quot;</span>, <span class="st">&quot;party_id&quot;</span>, <span class="st">&quot;period_id&quot;</span>)])</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   mp_id county_id party_id period_id</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  AAKU        VA        A   1945-49</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  AARY        AA        A   1945-49</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  ALKJ        He        H   1945-49</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  ALVÅ        Fi      NKP   1945-49</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  AMSK        ST        A   1945-49</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  ANBØ        SF        V   1945-49</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>parl_periods<span class="sc">$</span>id[<span class="fu">nrow</span>(parl_periods)]</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;1945-49&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="do">## mps4549 &lt;- get_parlperiod_mps(&quot;1945-49&quot;)</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">head</span>(mps4549[, <span class="fu">c</span>(<span class="st">&quot;mp_id&quot;</span>, <span class="st">&quot;county_id&quot;</span>, <span class="st">&quot;party_id&quot;</span>, <span class="st">&quot;period_id&quot;</span>)])</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt;   mp_id county_id party_id period_id</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; 1  AAKU        VA        A   1945-49</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; 2  AARY        AA        A   1945-49</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; 3  ALKJ        He        H   1945-49</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; 4  ALVÅ        Fi      NKP   1945-49</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; 5  AMSK        ST        A   1945-49</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; 6  ANBØ        SF        V   1945-49</span></span></code></pre></div>
 <p>From these data, the way is short to extracting more rich data on
 individual MPs, as will be demonstrated below.</p>
 <p>Content data, however, use parliamentary session IDs rather than
@@ -663,9 +663,9 @@ period IDs. These functions are standardized to function names as
 <code>get_session_*()</code>. For example, we can access all
 interpellations from the 2002-2003 session with the
 <code>get_session_questions()</code> function:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## interp0203 &lt;- get_session_questions(&quot;2002-2003&quot;, q_type = &quot;interpellasjoner&quot;)</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(interp0203)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 22 26</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="do">## interp0203 &lt;- get_session_questions(&quot;2002-2003&quot;, q_type = &quot;interpellasjoner&quot;)</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">dim</span>(interp0203)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; [1] 22 26</span></span></code></pre></div>
 <p>Here, we have 22 interpellations over 26 different variables.
 Unfortunately, the API only gives the question and not the answer for
 the different types of question requests. Retrieval of question answers
@@ -679,48 +679,48 @@ unstandardized <code>get_publication()</code> function.</p>
 extracting a case of interest and vote results, to vote matrices for
 that case.</p>
 <p>First, I extract all cases in the 2019-2020 session:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## cases &lt;- get_session_cases(&quot;2019-2020&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="do">## cases &lt;- get_session_cases(&quot;2019-2020&quot;)</span></span></code></pre></div>
 <p>The <code>cases</code> object will here contain all cases treated in
 the 2019-2020 parliamentary session. Do note that <code>cases</code> is
 a list of 4 elements (<code>$root</code>, <code>$topics</code>,
 <code>$proposers</code>, and <code>$spokespersons</code>). In the
 following, I use the case ID in <code>$root</code> to access vote
 information for a case – in this example the 48th row in the data:<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The case titles are, unfortunately, not translated</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>cases<span class="sc">$</span>root<span class="sc">$</span>title_short[<span class="dv">48</span>]</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Representantforslag om å reversere avgiftsøkninger på alkoholfrie drikkevarer og bevare arbeidsplasser i norsk næringsmiddelindustri og varehandel&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## vote &lt;- get_vote(cases$root$id[48])</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>vote[, <span class="fu">c</span>(<span class="st">&quot;case_id&quot;</span>, <span class="st">&quot;vote_id&quot;</span>, </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;alternative_vote&quot;</span>, </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;n_for&quot;</span>, <span class="st">&quot;n_absent&quot;</span>, <span class="st">&quot;n_against&quot;</span>)]</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   case_id vote_id alternative_vote n_for n_absent n_against</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   78686   15404               -1     1       82        86</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   78686   15405            15406    46       82        41</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   78686   15406            15405    41       82        46</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># The case titles are, unfortunately, not translated</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>cases<span class="sc">$</span>root<span class="sc">$</span>title_short[<span class="dv">48</span>]</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Representantforslag om å reversere avgiftsøkninger på alkoholfrie drikkevarer og bevare arbeidsplasser i norsk næringsmiddelindustri og varehandel&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## vote &lt;- get_vote(cases$root$id[48])</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>vote[, <span class="fu">c</span>(<span class="st">&quot;case_id&quot;</span>, <span class="st">&quot;vote_id&quot;</span>, </span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>         <span class="st">&quot;alternative_vote&quot;</span>, </span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>         <span class="st">&quot;n_for&quot;</span>, <span class="st">&quot;n_absent&quot;</span>, <span class="st">&quot;n_against&quot;</span>)]</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt;   case_id vote_id alternative_vote n_for n_absent n_against</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; 1   78686   15404               -1     1       82        86</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; 2   78686   15405            15406    46       82        41</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt; 3   78686   15406            15405    41       82        46</span></span></code></pre></div>
 <p>The output gives us a data frame of three votes over 22 variables,
 whereof one is the vote ID for each of the votes. We can use this
 variable to retrieve rollcall data, using the
 <code>get_result_vote</code> function:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## vote_result &lt;- lapply(vote$vote_id, get_result_vote, good_manners = 5)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(vote_result) <span class="ot">&lt;-</span> vote<span class="sc">$</span>vote_id</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>vote_result <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, vote_result)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vote_result[, <span class="dv">3</span><span class="sc">:</span><span class="fu">ncol</span>(vote_result)])</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         vote_id mp_id party_id          vote permanent_sub_for sub_for</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15404.1   15404   SSA        H           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15404.2   15404   EAG        H           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15404.3   15404   PTA      FrP           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15404.4   15404   DTA        A           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15404.5   15404  KAAN       SV           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15404.6   15404   MAA       Sp ikke_tilstede              &lt;NA&gt;    &lt;NA&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="do">## vote_result &lt;- lapply(vote$vote_id, get_result_vote, good_manners = 5)</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">names</span>(vote_result) <span class="ot">&lt;-</span> vote<span class="sc">$</span>vote_id</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>vote_result <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, vote_result)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="fu">head</span>(vote_result[, <span class="dv">3</span><span class="sc">:</span><span class="fu">ncol</span>(vote_result)])</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt;         vote_id mp_id party_id          vote permanent_sub_for sub_for</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; 15404.1   15404   SSA        H           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; 15404.2   15404   EAG        H           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; 15404.3   15404   PTA      FrP           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt; 15404.4   15404   DTA        A           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; 15404.5   15404  KAAN       SV           mot              &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; 15404.6   15404   MAA       Sp ikke_tilstede              &lt;NA&gt;    &lt;NA&gt;</span></span></code></pre></div>
 <p>And make an overall proportion table over party distribution for the
 three votes:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(vote_result<span class="sc">$</span>vote, vote_result<span class="sc">$</span>party_id,</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;Vote result&quot;</span>, <span class="st">&quot;Vote ID&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>(<span class="at">margin =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">table</span>(vote_result<span class="sc">$</span>vote, vote_result<span class="sc">$</span>party_id,</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>      <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">&quot;Vote result&quot;</span>, <span class="st">&quot;Vote ID&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">prop.table</span>(<span class="at">margin =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="sec:summary" class="section level1">
@@ -780,9 +780,9 @@ Day-by-Day: A New Open Source Database to Answer the Question of Who Was
 in What Parliament, Party, and Party-Group, and When.”</span>
 <em>Legislative Studies Quarterly</em>.
 </div>
-<div id="ref-Wickham2020" class="csl-entry">
-Wickham, Hadley. 2020. <em>Httr: Tools for Working with URLs and
-HTTP</em>. <a href="https://CRAN.R-project.org/package=httr">https://CRAN.R-project.org/package=httr</a>.
+<div id="ref-wickham2023" class="csl-entry">
+Wickham, Hadley. 2023. <em>Httr2: Perform HTTP Requests and Process the
+Responses</em>. <a href="https://httr2.r-lib.org">https://httr2.r-lib.org</a>.
 </div>
 </div>
 <p></font></p>
@@ -796,7 +796,7 @@ instance<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn3"><p><code>stortingscrape</code> exclusively works with
 XML.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
 <li id="fn4"><p><code>stortingscrape::get_mp(&quot;MAAA&quot;)</code><a href="#fnref4" class="footnote-back">↩︎</a></p></li>
-<li id="fn5"><p>Especially, see <a href="https://cran.r-project.org/package=httr/vignettes/api-packages.html" class="uri">https://cran.r-project.org/package=httr/vignettes/api-packages.html</a><a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>Especially, see <a href="https://httr2.r-lib.org/articles/wrapping-apis.html" class="uri">https://httr2.r-lib.org/articles/wrapping-apis.html</a><a href="#fnref5" class="footnote-back">↩︎</a></p></li>
 <li id="fn6"><p><a href="https://stortinget.no">stortinget.no</a> as the
 ids are embedded in the urls.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
 <li id="fn7"><p>This is done in order to not call the API each time the
