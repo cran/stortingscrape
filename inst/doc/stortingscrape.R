@@ -32,9 +32,9 @@ covid_relief <- get_vote("85196")
 head(covid_relief[, c("case_id", "vote_id", "n_for", "n_against", "adopted")])
 
 ## ----covid_id, eval=FALSE-----------------------------------------------------
-#  
-#  covid_relief$vote_id[which(grepl("217", covid_relief$vote_topic))]
-#  
+# 
+# covid_relief$vote_id[which(grepl("217", covid_relief$vote_topic))]
+# 
 
 ## ----covid_relief_result, eval=-1---------------------------------------------
 covid_relief_result <- get_result_vote("17689")
@@ -94,9 +94,9 @@ head(vote_result[, 3:ncol(vote_result)])
 
 
 ## ----votetab, eval=FALSE------------------------------------------------------
-#  table(vote_result$vote, vote_result$party_id,
-#        dnn = c("Vote result", "Vote ID")) |>
-#    prop.table(margin = 2) |>
-#    round(digits = 2)
-#  
+# table(vote_result$vote, vote_result$party_id,
+#       dnn = c("Vote result", "Vote ID")) |>
+#   prop.table(margin = 2) |>
+#   round(digits = 2)
+# 
 

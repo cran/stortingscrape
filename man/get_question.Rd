@@ -27,6 +27,7 @@ A data.frame with the following variables:\tabular{ll}{
    \strong{agenda_number} \tab Agenda number in meeting \cr
    \strong{moved_to} \tab Date moved to \cr
    \strong{id} \tab Question id \cr
+   \strong{legacy_id} \tab Question legacy id (only use to match with data downloaded before 10.12.2024) \cr
    \strong{correct_person_id} \tab Not documented in API \cr
    \strong{correct_person_minister_id} \tab Not documented in API \cr
    \strong{correct_person_minister_title} \tab Not documented in API \cr
@@ -41,6 +42,7 @@ A data.frame with the following variables:\tabular{ll}{
    \strong{answer_text} \tab Answer text (often empty) \cr
    \strong{title} \tab Question title \cr
    \strong{type} \tab Question type \cr
+   \strong{asked_by_other_id} \tab ID of person that asked the question on behalf of \code{question_from_id} \cr
 }
 }
 \description{
@@ -69,5 +71,5 @@ quest1213 <- do.call(rbind, int1213)
 
 }
 \seealso{
-\link{get_question_hour} \link{get_publication}
+\link{get_question_hour} \link{get_publication} \link{get_meeting_agenda}
 }

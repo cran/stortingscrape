@@ -1,7 +1,8 @@
 #' Retrieve a specific publication
 #' 
-#' A function for retrieving a specific publication. Because these are formated very differently in the API,
-#' the returning object is in a raw html_document format, best manipulated with html packages such as \link{rvest}.
+#' A function for retrieving a specific publication. Because these are formatted very differently in the API,
+#' the returning object is in a raw html_document format, best manipulated with html node extraction functions 
+#' such as \code{\link[rvest:html_elements]{rvest::html_elements()}} .
 #' 
 #' @usage get_publication(publicationid = NA, good_manners = 0)
 #' 
@@ -64,6 +65,8 @@ get_publication <- function(publicationid = NA, good_manners = 0){
   tmp <- resp |> 
     resp_body_html(check_type = FALSE, encoding = "utf-8") 
 
+  Sys.sleep(good_manners)
+  
   return(tmp)
   
 }

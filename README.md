@@ -4,12 +4,12 @@
 <!-- badges: start -->
 
 [![CRAN
-Version](http://www.r-pkg.org/badges/version/stortingscrape)](https://cran.r-project.org/package=stortingscrape)
+Version](https://www.r-pkg.org/badges/version/stortingscrape)](https://cran.r-project.org/package=stortingscrape)
 [![Github
 Version](https://img.shields.io/github/r-package/v/martigso/stortingscrape?color=yellowgreen)](https://github.com/martigso/stortingscrape)
-[![Downloads](http://cranlogs.r-pkg.org/badges/stortingscrape)](https://cran.r-project.org/package=stortingscrape)
+[![Downloads](https://cranlogs.r-pkg.org/badges/stortingscrape)](https://cran.r-project.org/package=stortingscrape)
 [![Total
-Downloads](http://cranlogs.r-pkg.org/badges/grand-total/stortingscrape?color=orange)](https://cran.r-project.org/package=stortingscrape)
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/stortingscrape?color=orange)](https://cran.r-project.org/package=stortingscrape)
 [![R-CMD-check](https://github.com/martigso/stortingscrape/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/martigso/stortingscrape/actions/workflows/check-standard.yaml)
 <!-- badges: end -->
 
@@ -124,3 +124,18 @@ Stortinget](https://data.stortinget.no/dokumentasjon-og-hjelp/).
 
 [You can find a list of all functions
 here.](https://martigso.github.io/stortingscrape/functions.html)
+
+## Citation
+
+Please use the following citation when using the package in research:
+
+> Søyland M (2024). “stortingscrape: An R package for accessing data
+> from the Norwegian parliament.” URL:
+> <https://martigso.github.io/stortingscrape/articles/stortingscrape.html>.
+
+This can, as with all R-packages, also be generated using the `citation`
+function:
+
+``` r
+citation("stortingscrape")
+```
