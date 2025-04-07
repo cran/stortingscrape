@@ -1,7 +1,7 @@
 Package: stortingscrape
 Type: Package
 Title: Access Data from the Norwegian Parliament API
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: person(given = "Martin", 
                   family = "Søyland", 
                   email = "martin.soyland@stv.uio.no",
@@ -21,8 +21,8 @@ VignetteBuilder: knitr
 RoxygenNote: 7.3.2
 LazyData: true
 NeedsCompilation: no
-Packaged: 2025-03-07 18:16:43 UTC; martigso
+Packaged: 2025-04-07 07:41:01 UTC; martigso
 Author: Martin Søyland [aut, cre] (<https://orcid.org/0000-0002-2463-8469>)
 Maintainer: Martin Søyland <martin.soyland@stv.uio.no>
 Repository: CRAN
-Date/Publication: 2025-03-07 21:30:02 UTC
+Date/Publication: 2025-04-07 08:00:02 UTC

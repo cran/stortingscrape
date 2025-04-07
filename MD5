@@ -1,6 +1,6 @@
-db5bc5f10de39866c9cc23f191ade0c1 *DESCRIPTION
+c682c41e1a596781058f4cf6116594d0 *DESCRIPTION
 8d2ca6d01dabe9e1cdd1079ed7dea6ab *NAMESPACE
-591443643cf36289b6c815ae43ec4f9d *NEWS.md
+73b536f832d90c293ad73505ac62bbef *NEWS.md
 56b069aba0809814f2c421def27c4c1a *R/data.R
 0369a95c0709dd600cb4a8e3293bdae6 *R/get_all_committees.R
 5754ff5cabbc3c0cbc2cca1261b977f6 *R/get_all_parties.R
@@ -33,12 +33,12 @@ e4173cc64a38d0dd6cc471cea9913a7d *R/get_session_hearings.R
 5bb2d1efce24a8849695d04d49b52831 *R/get_session_parties.R
 ec8f063c7582855e7347358104d708b6 *R/get_session_publications.R
 c63d5230136e0ff7f15abda1d4e3c418 *R/get_session_questions.R
-5dc351ec2c9ed13a092eb8fdd0531746 *R/get_topics.R
+e7ea54fe91188ecd29ecf42a1f0b6a05 *R/get_topics.R
 3a34b4310034f43d2623a06729899cc3 *R/get_vote.R
 b31b04bf097148296491a409971dd520 *R/get_written_hearing_input.R
 f2fb2b93c07076f7a1274963dc4f1e09 *R/read_obt.R
 63a891a54377eaca1a675d9898dfa995 *README.md
-220a1de61b9c8f57f9927203ba89c95a *build/vignette.rds
+b0892433b654b6b98668bf5011fdcc5b *build/vignette.rds
 b15f5d6efadbad18f20706ce0891131a *data/cases.rda
 2cd3d6eb8661f3734c95336395886822 *data/covid_relief.rda
 f5d7eb80c3fad302d22ea4516f71b854 *data/covid_relief_result.rda
@@ -51,8 +51,8 @@ cfb3c4c4196d4b7855bebb7c09897447 *data/parl_periods.rda
 62c487491f2793359d8e064e23859995 *data/vote_result.rda
 8be09fc6434f93f5bf03be95b0a563bc *inst/CITATION
 046bd7eb1bf068d839c6ead435bd371d *inst/doc/stortingscrape.R
-dd99507a32e3122d9bb117cfd2c088b8 *inst/doc/stortingscrape.Rmd
-ae1eccd3926fb7bb4a87ed04cb572b5e *inst/doc/stortingscrape.html
+bbdca20cd287aaccad10c24eb570c22a *inst/doc/stortingscrape.Rmd
+308afde4d1512dca16b69cb435474795 *inst/doc/stortingscrape.html
 320cb60177f4b3f2981a4ea1bfb58158 *inst/extdata/obt_sample.txt
 8bc328866f9f7274b3d0e7452dec58ba *man/cases.Rd
 dd805e7825b89493f0c47e8c9f746d22 *man/covid_relief.Rd
@@ -89,7 +89,7 @@ e155c81cdfba669b320b40cbe3cfbbc3 *man/get_session_mp_speech_activity.Rd
 673bca3281f00c1b0602703832ff5e5a *man/get_session_parties.Rd
 5dedd76ff759f85606a1b8aa1dd6b302 *man/get_session_publications.Rd
 2c6770a8acf34f4ec308f100e2bb5dc1 *man/get_session_questions.Rd
-3ba346aab5989b7843f4286789ce151f *man/get_topics.Rd
+ac5e028cd2208fe828ce6969ed8a0191 *man/get_topics.Rd
 e5eea7740266672abce765ae2eea7ff7 *man/get_vote.Rd
 2101b2c5be5db0b3a8a60aeb6bfb0d2b *man/get_written_hearing_input.Rd
 1fffca89b13d7fdfdcde3ad48aec810b *man/interp0203.Rd
@@ -101,4 +101,4 @@ b70ef6ea8a8bee96580a1a01a4857168 *man/read_obt.Rd
 f713f5e9953f559466f7088e25d1f3eb *man/vote.Rd
 dd7a7b113cdaf69201c525edc58b27b6 *man/vote_result.Rd
 38216a454b5eabd6363249d2c9bc5724 *vignettes/refs.bib
-dd99507a32e3122d9bb117cfd2c088b8 *vignettes/stortingscrape.Rmd
+bbdca20cd287aaccad10c24eb570c22a *vignettes/stortingscrape.Rmd
